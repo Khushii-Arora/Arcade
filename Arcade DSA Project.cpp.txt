@@ -1,0 +1,235 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+///////     CODE by KHUSHI ARORA      ///////
+
+
+int printRandoms()  //getting a random number
+{
+    srand((unsigned) time(0));   
+  int randomNum = (rand() % 3) + 1;
+  return randomNum;
+}
+
+
+int WordGame()   //WordGame
+{
+char array[][20] = {"random","computer","music","data"};
+
+  // Get word to guess
+  char answer[128];
+  strcpy(answer,array[printRandoms()]);  //getting a random word
+
+  
+  int N = strlen(answer);
+  int chances = strlen(answer);
+  int tries=0;
+  int mask[N];
+  for (int i=0; i < N; ++i) {
+    mask[i] = 0;
+  }
+printf("you have %d chances for this word \n", (chances+2));
+  // Loop over each round of guessing
+  int gameover = 0;
+  while (! gameover && (tries+2)<chances) {
+    // Print word with * for unguessed letters
+    printf("The word is : ");
+    for(int j=0; j < N; ++j) {
+      if (mask[j] || answer[j]=='a' || answer[j]=='e'|| answer[j]=='i' || answer[j]=='o'|| answer[j]=='u') {
+        printf("%c", answer[j]);
+      }
+      else {
+        printf("*");
+      }
+    }
+    printf("\n");
+
+    // Get player's next guess
+    char guess;
+    printf("Letter? ");
+    scanf(" %c", &guess);
+
+    // Mark true all mask positions corresponding to guess
+    for(int k=0; k < N; ++k) {
+      if (answer[k] == guess || answer[k]=='a' || answer[k]=='e'|| answer[k]=='i' || answer[k]=='o'|| answer[k]=='u') {
+	mask[k] = 1;
+      }
+    }
+
+    // Determining whether the player has won!
+    gameover = 1;
+    for(int m = 0; m < N; ++m) {
+      if (!mask[m]) {
+        gameover = 0;
+        ++tries;
+        break;
+      }
+    }
+ 
+  }
+
+  if((tries+2)>=chances){
+  printf("Defeat! The word is \"%s\".\n", answer);}
+  else
+  {printf("Victory! The word is \"%s\".\n", answer);}
+
+  return 0;
+}
+
+/////word game ends/////
+
+
+
+char square[10] = { 'o', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+int checkwin();
+void board();
+
+int TicTacToe()   //Tic Tac Toe game
+{
+    int player = 1, i, choice;
+
+    char mark;
+    do
+    {
+        board();
+        player = (player % 2) ? 1 : 2;
+
+        printf("Player %d, enter a number:  ", player);
+        scanf("%d", &choice);
+
+        mark = (player == 1) ? 'X' : 'O';
+
+        if (choice == 1 && square[1] == '1')
+            square[1] = mark;
+            
+        else if (choice == 2 && square[2] == '2')
+            square[2] = mark;
+            
+        else if (choice == 3 && square[3] == '3')
+            square[3] = mark;
+            
+        else if (choice == 4 && square[4] == '4')
+            square[4] = mark;
+            
+        else if (choice == 5 && square[5] == '5')
+            square[5] = mark;
+            
+        else if (choice == 6 && square[6] == '6')
+            square[6] = mark;
+            
+        else if (choice == 7 && square[7] == '7')
+            square[7] = mark;
+            
+        else if (choice == 8 && square[8] == '8')
+            square[8] = mark;
+            
+        else if (choice == 9 && square[9] == '9')
+            square[9] = mark;
+            
+        else
+        {
+            printf("Invalid move ");
+
+            player--;
+        }
+        i = checkwin();
+
+        player++;
+    }while (i ==  - 1);
+    
+    board();
+    
+    if (i == 1)
+        printf("==>\aPlayer %d win ", --player);
+    else
+        printf("==>\aGame draw");
+
+    return 0;
+}
+
+int checkwin()
+{
+    if (square[1] == square[2] && square[2] == square[3])
+        return 1;
+        
+    else if (square[4] == square[5] && square[5] == square[6])
+        return 1;
+        
+    else if (square[7] == square[8] && square[8] == square[9])
+        return 1;
+        
+    else if (square[1] == square[4] && square[4] == square[7])
+        return 1;
+        
+    else if (square[2] == square[5] && square[5] == square[8])
+        return 1;
+        
+    else if (square[3] == square[6] && square[6] == square[9])
+        return 1;
+        
+    else if (square[1] == square[5] && square[5] == square[9])
+        return 1;
+        
+    else if (square[3] == square[5] && square[5] == square[7])
+        return 1;
+        
+    else if (square[1] != '1' && square[2] != '2' && square[3] != '3' &&
+        square[4] != '4' && square[5] != '5' && square[6] != '6' && square[7] 
+        != '7' && square[8] != '8' && square[9] != '9')
+
+        return 0;
+    else
+        return  - 1;
+}
+void board()
+{
+    printf("\n\n\tTic Tac Toe\n\n");
+
+    printf("Player 1 (X)  -  Player 2 (O)\n\n\n");
+
+
+    printf("     |     |     \n");
+    printf("  %c  |  %c  |  %c \n", square[1], square[2], square[3]);
+
+    printf("_____|_____|_____\n");
+    printf("     |     |     \n");
+
+    printf("  %c  |  %c  |  %c \n", square[4], square[5], square[6]);
+
+    printf("_____|_____|_____\n");
+    printf("     |     |     \n");
+
+    printf("  %c  |  %c  |  %c \n", square[7], square[8], square[9]);
+
+    printf("     |     |     \n\n");
+}
+
+////////TicTacToe game ends/////////
+
+void main()
+{
+    int choice;
+    printf("Project by KHUSHI ARORA\n CSE 2C\n 2K20CSUN01058\n\n");
+    printf("WELCOME TO THE ARCADE!!\n");
+    
+    printf("Game Menu:\nPress 1 for Guess The Word\nPress 2 for Tic Tac Toe\n\n");
+    
+    scanf("%d", &choice);
+    
+    switch(choice){
+
+   case 1:
+      WordGame();
+      break;
+	
+   case 2:
+   TicTacToe();
+      break;
+      
+   default : printf("invalid input");
+}
+}
